@@ -1,6 +1,7 @@
 package tests;
 
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.net.*;
  
 public class MultithreadServer {
@@ -44,8 +45,19 @@ class Accepter_clients implements Runnable {
             try {
                 while(true){
               socket = socketserver.accept(); // Un client se connecte on l'accepte
-                      System.out.println("Le client numéro "+nbrclient+ " est connecté !" + " num = " + num);
-                      nbrclient++;
+                      System.out.println("client "+nbrclient+ " est connecté !" + " canal = " + num);
+                      
+                      
+                      PrintWriter out = new PrintWriter(socket.getOutputStream());
+          	        
+          	        out.println("HTTP/1.1 200 OK");
+          	        out.println("Content-Type : text/plain");
+          	        out.println("");
+          	        out.println("Hello !! " + "canal : " + num + " client : "+ nbrclient);
+          	        
+          	        out.flush();
+          	      nbrclient++; 
+                      
                       socket.close();
                       try {
 						Thread.sleep(10000);
