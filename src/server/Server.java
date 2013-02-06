@@ -6,18 +6,23 @@ public class Server
 {
 	public Server(String url, int port)
 	{
-		requests = new ArrayList<>();
+		waitingRequests = new ArrayList<>();
 	}
 	
-	// requêtes à traiter par le serveur
-	private ArrayList<Request> requests;
+	// requêtes en attente à traiter par le serveur
+	private volatile  ArrayList<Request> waitingRequests;
 	
-	public void receiveRequest(Request request)
+	public void handleRequest(Request request)
 	{
-		requests.add(request);
+		// On regarde si le pool de thread est plein
+		// Si ça n'est pas le cas, on utilise un thread pour traiter la requete "request"
+		
+		
+		// Dans le cas contraire on met cette requête en attente
+		waitingRequests.add(request);
 	}
 	
-	public Response returnResponse(Request request)
+	public Response returnResponseFromRequest(Request request)
 	{
 		return null;
 	}
