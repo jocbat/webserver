@@ -10,7 +10,8 @@ import org.junit.Test;
 
 import server.Request;
 
-public class RequestTest {
+public class RequestTest 
+{
 
 	@Test
 	public void fillRequestWithNotNullInputStreamRetrieveMethodURLAndVersionWell() throws FileNotFoundException 
