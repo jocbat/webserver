@@ -4,18 +4,24 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.net.Socket;
 import java.util.ArrayList;
 
 // Représente une requête effectuée sur un serveur
 public class Request 
 {
-	public Request(InputStream input)
+	public Request(Socket socket)
 	{
-		this.inputStream = input;
+		this.socketduserveur = socket;
 	}
 	
-	private InputStream inputStream;
+	// Socket d'ou provient la requete courante
+	private Socket socketduserveur;
 	
+	public Socket getSocketduserveur() {
+		return socketduserveur;
+	}
+
 	// Méthode appelée par le client (GET, POST...)
 	private String method;
 	
@@ -25,7 +31,7 @@ public class Request
 	// version du protocole (1.0, 1.1...)
 	private String version;
 	
-	private boolean internalIsValid;
+	private boolean internalIsValid = false;
 	
 	// la requete courante est-elle valide ?
 	public boolean isValid()
@@ -36,15 +42,20 @@ public class Request
 	// Permet de "remplir" la requete à l'aide du flux interne inputStream
 	public void fill()
 	{
-		if(inputStream == null)
-		{
-			throw new NullPointerException("");
-		}
 		
-		BufferedReader buff = new BufferedReader (new InputStreamReader (inputStream));
-		String chainePremierLigne = "";
 		try {
+			BufferedReader buff = new BufferedReader (new InputStreamReader (socketduserveur.getInputStream()));
+			String chainePremierLigne = "";
 			chainePremierLigne = buff.readLine();
+			
+			// Si l'on a rien en première ligne, la requete est mal faite donc inutile de continuer
+			if((chainePremierLigne == null) || (chainePremierLigne == "")) return;
+			
+			
+			System.out.println(chainePremierLigne);
+			
+			//if (chainePremierLigne == null) return;
+			
 			int positionPremierBlanc = chainePremierLigne.indexOf(" ");
 			int positionDeuxiemeBlanc = chainePremierLigne.lastIndexOf(" ");
 			
@@ -55,10 +66,18 @@ public class Request
 			this.method = methode;
 			this.URL = url;
 			this.version = version;
+			this.internalIsValid = true;
 		} catch (IOException e) {
 			// une erreur est survenue, la requete est invalide
 			this.internalIsValid = false;
 		}
+	}
+	
+	// la requete courante respecte la norme http ?
+	public boolean isWellFormed()
+	{
+		// l'url doit être de la forme "/toto/tutu/titi.xml"
+		return true;
 	}
 	
 	public String getMethod() {

@@ -33,7 +33,7 @@ public class SomeTries {
 	}
 	
 	@Test
-	public void recupererFluxFichiermockrequest() 
+	public void recupererFluxFichier() 
 	{
 		BufferedReader br = null;
 		boolean isExist = false;
@@ -41,7 +41,7 @@ public class SomeTries {
 			
 			String sCurrentLine;
  
-			br = new BufferedReader(new FileReader("D:/Travail_Java/simple-5.0.4/WebServer/src/tests/mockrequest.txt"));
+			br = new BufferedReader(new FileReader("D:/toto.txt"));
 			
 			while ((sCurrentLine = br.readLine()) != null) {
 				System.out.println(sCurrentLine);
@@ -62,7 +62,12 @@ public class SomeTries {
 	}
 	
 	
-	
+	@Test
+	public void isExistingFile() 
+	{
+		File file = new File("C:/hiberfil.sys");
+		System.out.println(file.isFile());
+	}
 	
 	
 	private ArrayList<String> separerPremiereChaine(String chaine)
