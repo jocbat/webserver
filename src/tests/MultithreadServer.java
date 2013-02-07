@@ -16,9 +16,9 @@ public class MultithreadServer {
         Thread t3 = new Thread(new Accepter_clients(socket, 3));
         Thread t4 = new Thread(new Accepter_clients(socket, 4));
         t.start();
-        t2.start();
-        t3.start();
-        t4.start();
+        //t2.start();
+        //t3.start();
+        //t4.start();
         
         System.out.println("Mes employeurs sont prêts !");
          
@@ -47,7 +47,6 @@ class Accepter_clients implements Runnable {
               socket = socketserver.accept(); // Un client se connecte on l'accepte
                       System.out.println("client "+nbrclient+ " est connecté !" + " canal = " + num);
                       
-                      
                       PrintWriter out = new PrintWriter(socket.getOutputStream());
           	        
           	        out.println("HTTP/1.1 200 OK");
@@ -59,12 +58,7 @@ class Accepter_clients implements Runnable {
           	      nbrclient++; 
                       
                       socket.close();
-                      try {
-						Thread.sleep(10000);
-					} catch (InterruptedException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					}
+                      
                 }
              
             } catch (IOException e) {
