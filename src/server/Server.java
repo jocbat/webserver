@@ -9,7 +9,15 @@ import java.net.Socket;
 public class Server 
 {
 
-    ServerSocket socketserver;
+    public ServerSocket getSocketserver() {
+		return socketserver;
+	}
+
+	public Socket getSocketduserveur() {
+		return socketduserveur;
+	}
+
+	ServerSocket socketserver;
     Socket socketduserveur;
 	int internalPort;
 	
@@ -19,6 +27,17 @@ public class Server
 		internalPort = port;
 	}
 	
+	// Chemin d'accès des fichiers que gère le serveur
+	private String filesPath;
+	
+	public String getFilesPath() {
+		return filesPath;
+	}
+
+	public void setFilesPath(String filesPath) {
+		this.filesPath = filesPath;
+	}
+
 	public void start() throws IOException, InterruptedException
 	{
 		socketserver = new ServerSocket(internalPort);

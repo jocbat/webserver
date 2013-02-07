@@ -10,16 +10,16 @@ import java.util.ArrayList;
 // Représente une requête effectuée sur un serveur
 public class Request 
 {
-	public Request(Socket socket)
+	public Request(Server server)
 	{
-		this.socketduserveur = socket;
+		this.server = server;
 	}
 	
-	// Socket d'ou provient la requete courante
-	private Socket socketduserveur;
+	// Serveur qui traite cette requete
+	private Server server;
 	
-	public Socket getSocketduserveur() {
-		return socketduserveur;
+	public Server getServer() {
+		return server;
 	}
 
 	// Méthode appelée par le client (GET, POST...)
@@ -44,7 +44,7 @@ public class Request
 	{
 		
 		try {
-			BufferedReader buff = new BufferedReader (new InputStreamReader (socketduserveur.getInputStream()));
+			BufferedReader buff = new BufferedReader (new InputStreamReader (server.getSocketduserveur().getInputStream()));
 			String chainePremierLigne = "";
 			chainePremierLigne = buff.readLine();
 			

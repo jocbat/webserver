@@ -32,7 +32,7 @@ public class Response
 	public void send()
 	{
 		try {
-			PrintWriter out = new PrintWriter(initialRequest.getSocketduserveur().getOutputStream());
+			PrintWriter out = new PrintWriter(initialRequest.getServer().getSocketduserveur().getOutputStream());
 			
 			if (!"/favicon.ico".equals(initialRequest.getURL()))
 			{
@@ -55,10 +55,7 @@ public class Response
 								while ((sCurrentLine = br.readLine()) != null) {
 									System.out.println(sCurrentLine);
 									
-									out.println(sCurrentLine);
-									
-									// on a bien une ligne, l'adresse pointe bien vers le fichier mockrequest
-									
+									out.println(sCurrentLine);									
 								}
 					 
 							} catch (IOException e) {
@@ -98,49 +95,12 @@ public class Response
 				
 		        out.flush();
 			}
-			initialRequest.getSocketduserveur().close();
+			initialRequest.getServer().getSocketduserveur().close();
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
-	
-	private void recupererFluxFichiermockrequest() 
-	{
-		BufferedReader br = null;
-		boolean isExist = false;
-		try {
-			
-			String sCurrentLine;
- 
-			br = new BufferedReader(new FileReader("D:/Travail_Java/simple-5.0.4/WebServer/src/tests/mockrequest.txt"));
-			
-			while ((sCurrentLine = br.readLine()) != null) {
-				System.out.println(sCurrentLine);
-				// on a bien une ligne, l'adresse pointe bien vers le fichier mockrequest
-				isExist = true;
-			}
- 
-		} catch (IOException e) {
-			e.printStackTrace();
-		} finally {
-			try {
-				if (br != null)br.close();
-			} catch (IOException ex) {
-				ex.printStackTrace();
-			}
-		}
-		assertTrue(isExist);
-	}
-	
-	
-	
-	
-	
-	
-	
-	
-	
 
 	public String getVersion() {
 		return version;
