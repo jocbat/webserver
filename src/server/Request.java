@@ -66,6 +66,7 @@ public class Request
 			this.method = methode;
 			this.URL = url;
 			this.version = version;
+			this.internalIsValid = true;
 		} catch (IOException e) {
 			// une erreur est survenue, la requete est invalide
 			this.internalIsValid = false;

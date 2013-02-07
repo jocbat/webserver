@@ -1,5 +1,10 @@
 package server;
 
+import static org.junit.Assert.assertTrue;
+
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
 import java.io.IOException;
 import java.io.PrintWriter;
 
@@ -31,16 +36,60 @@ public class Response
 			
 			if (!"/favicon.ico".equals(initialRequest.getURL()))
 			{
-				/*out.println("HTTP/1.1 200 OK");
-		        out.println("Content-Type : text/plain");
-		        out.println("");
-		        out.println("Hello !!");*/
 				if(initialRequest.isValid())
 				{
 					if(initialRequest.isWellFormed())
 					{
-						
+						String pathFile = "D:" + initialRequest.getURL();
+						File file = new File(pathFile);
+						if(file.isFile())
+						{
+							BufferedReader br = null;
+							boolean isExist = false;
+							try {
+								
+								String sCurrentLine;
+					 
+								br = new BufferedReader(new FileReader(pathFile));
+								
+								while ((sCurrentLine = br.readLine()) != null) {
+									System.out.println(sCurrentLine);
+									// on a bien une ligne, l'adresse pointe bien vers le fichier mockrequest
+									isExist = true;
+								}
+					 
+							} catch (IOException e) {
+								e.printStackTrace();
+							} finally {
+								try {
+									if (br != null)br.close();
+								} catch (IOException ex) {
+									ex.printStackTrace();
+								}
+							}
+						}
+						else
+						{
+							out.println("HTTP/1.1 404 File Not Found");
+					        out.println("Content-Type : text/plain");
+					        out.println("");
+					        out.println("Le fichier n'existe pas");
+						}
 					}
+					else
+					{
+						out.println("HTTP/1.1 400 Bad request");
+				        out.println("Content-Type : text/plain");
+				        out.println("");
+				        out.println("Requete mal formée");
+					}
+				}
+				else
+				{
+					out.println("HTTP/1.1 500 Internal Server Error");
+			        out.println("Content-Type : text/plain");
+			        out.println("");
+			        out.println("Le serveur a planté...:)");
 				}
 				
 				
@@ -52,6 +101,43 @@ public class Response
 			e.printStackTrace();
 		}
 	}
+	
+	private void recupererFluxFichiermockrequest() 
+	{
+		BufferedReader br = null;
+		boolean isExist = false;
+		try {
+			
+			String sCurrentLine;
+ 
+			br = new BufferedReader(new FileReader("D:/Travail_Java/simple-5.0.4/WebServer/src/tests/mockrequest.txt"));
+			
+			while ((sCurrentLine = br.readLine()) != null) {
+				System.out.println(sCurrentLine);
+				// on a bien une ligne, l'adresse pointe bien vers le fichier mockrequest
+				isExist = true;
+			}
+ 
+		} catch (IOException e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				if (br != null)br.close();
+			} catch (IOException ex) {
+				ex.printStackTrace();
+			}
+		}
+		assertTrue(isExist);
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
 
 	public String getVersion() {
 		return version;

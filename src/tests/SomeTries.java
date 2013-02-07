@@ -62,7 +62,12 @@ public class SomeTries {
 	}
 	
 	
-	
+	@Test
+	public void isExistingFile() 
+	{
+		File file = new File("C:/hiberfil.sys");
+		System.out.println(file.isFile());
+	}
 	
 	
 	private ArrayList<String> separerPremiereChaine(String chaine)
