@@ -26,7 +26,6 @@ public class SocketRequest extends HttpRequest
 	 */
 	public void fill()
 	{
-		
 		try {
 			
 			BufferedReader buff;			

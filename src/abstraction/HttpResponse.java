@@ -1,5 +1,7 @@
 package abstraction;
 
+import java.util.ArrayList;
+
 public abstract class HttpResponse 
 {
 	// requete dont la reponse courante sera issue
@@ -7,7 +9,7 @@ public abstract class HttpResponse
 	
 	protected String version;
 	
-	protected String body;
+	protected ArrayList<String> body;
 	
 	protected String contentType;
 	
@@ -15,7 +17,7 @@ public abstract class HttpResponse
 		return version;
 	}
 
-	public String getBody() {
+	public ArrayList<String> getBody() {
 		return body;
 	}
 
