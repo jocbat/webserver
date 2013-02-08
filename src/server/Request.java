@@ -10,10 +10,12 @@ import java.util.ArrayList;
 // Représente une requête effectuée sur un serveur
 public class Request 
 {
-	public Request(Server server)
+	public Request(InputStream inputStream)
 	{
-		this.server = server;
+		this.inputStream = inputStream;
 	}
+	
+	private InputStream inputStream;
 	
 	// Serveur qui traite cette requete
 	private Server server;
@@ -44,7 +46,12 @@ public class Request
 	{
 		
 		try {
-			BufferedReader buff = new BufferedReader (new InputStreamReader (server.getSocketduserveur().getInputStream()));
+			
+			BufferedReader buff;			
+			
+			buff = new BufferedReader (new InputStreamReader (inputStream));
+			
+						
 			String chainePremierLigne = "";
 			chainePremierLigne = buff.readLine();
 			
@@ -53,8 +60,6 @@ public class Request
 			
 			
 			System.out.println(chainePremierLigne);
-			
-			//if (chainePremierLigne == null) return;
 			
 			int positionPremierBlanc = chainePremierLigne.indexOf(" ");
 			int positionDeuxiemeBlanc = chainePremierLigne.lastIndexOf(" ");
@@ -85,24 +90,11 @@ public class Request
 		return method;
 	}
 
-	public void setMethod(String method) {
-		this.method = method;
-	}
-
 	public String getURL() {
 		return URL;
-	}
-
-	public void setURL(String uRL) {
-		URL = uRL;
 	}
 
 	public String getVersion() {
 		return version;
 	}
-
-	public void setVersion(String version) {
-		this.version = version;
-	}
-	
 }

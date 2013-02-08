@@ -12,7 +12,7 @@ import java.util.ArrayList;
 // représente une réponse envoyé par un serveur
 public class Response 
 {
-	public Response(Request request)
+	public Response(Request request, ListenerStream listenerStream)
 	{
 		this.initialRequest = request;
 		this.body = new ArrayList<String>();
@@ -35,85 +35,6 @@ public class Response
 	
 	// corps de la reponse
 	private ArrayList<String> body;
-	
-	
-	// envoit la reponse courante au client ayant fait la requete "initialRequest"
-	/*public void send()
-	{
-		try {
-			PrintWriter out = new PrintWriter(initialRequest.getServer().getSocketduserveur().getOutputStream());
-			
-			if (!"/favicon.ico".equals(initialRequest.getURL()))
-			{
-				if(initialRequest.isValid())
-				{
-					if(initialRequest.isWellFormed())
-					{
-						String pathFile = "D:" + initialRequest.getURL();
-						File file = new File(pathFile);
-						if(file.isFile())
-						{
-							out.println("HTTP/1.1 200 OKEEEE");
-							out.println("");
-							
-							BufferedReader br = null;
-							
-							try {
-								
-								String sCurrentLine;
-					 
-								br = new BufferedReader(new FileReader(pathFile));
-								
-								while ((sCurrentLine = br.readLine()) != null) {
-									System.out.println(sCurrentLine);
-									
-									out.println(sCurrentLine);									
-								}
-								
-					 
-							} catch (IOException e) {
-								e.printStackTrace();
-							} finally {
-								try {
-									if (br != null)br.close();
-								} catch (IOException ex) {
-									ex.printStackTrace();
-								}
-							}
-						}
-						else
-						{
-							out.println("HTTP/1.1 404 File Not Found");
-					        out.println("Content-Type : text/plain");
-					        out.println("");
-					        out.println("Le fichier n'existe pas");
-						}
-					}
-					else
-					{
-						out.println("HTTP/1.1 400 Bad request");
-				        out.println("Content-Type : text/plain");
-				        out.println("");
-				        out.println("Requete mal formée");
-					}
-				}
-				else
-				{
-					out.println("HTTP/1.1 500 Internal Server Error");
-			        out.println("Content-Type : text/plain");
-			        out.println("");
-			        out.println("Le serveur a planté...:)");
-				}
-				
-				
-		        out.flush();
-			}
-			initialRequest.getServer().getSocketduserveur().close();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-	}*/
 	
 	public void send()
 	{
@@ -157,6 +78,9 @@ public class Response
 						this.status = "200";
 						this.status_meaning = "OKEEEE";
 						this.contentType = "Content-Type : text/plain";
+						
+						
+						
 						BufferedReader br = null;
 						
 						try {
@@ -206,11 +130,6 @@ public class Response
 				this.status_meaning = "Internal Server Error";
 				this.contentType = "Content-Type : text/plain";
 				this.body.add("Le serveur a planté...:)");
-				
-				/*out.println("HTTP/1.1 500 Internal Server Error");
-		        out.println("Content-Type : text/plain");
-		        out.println("");
-		        out.println("Le serveur a planté...:)");*/
 			}
 		}
 	}
