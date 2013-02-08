@@ -76,7 +76,8 @@ public class Request
 	// la requete courante respecte la norme http ?
 	public boolean isWellFormed()
 	{
-		// l'url doit être de la forme "/toto/tutu/titi.xml"
+		// TODO : utiliser un Regex, l'url doit être de la forme "/toto/tutu/titi.xml", la méthode doit être soit "GET", "POST", "PUT"
+		// la version doit être vérifiée également etc...
 		return true;
 	}
 	

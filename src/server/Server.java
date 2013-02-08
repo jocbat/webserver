@@ -64,11 +64,12 @@ public class Server
 //				read = input.read();
 //			}
 //			System.out.println(st.toString());
-			Request request = new Request(socketduserveur);
+			Request request = new Request(this);
 			request.fill();
 			
 			
 			Response response = new Response(request);
+			response.generate();
 			response.send();
 			//PrintWriter out = new PrintWriter(socketduserveur.getOutputStream());
 	        
@@ -84,7 +85,7 @@ public class Server
 	        
 	        
 	        //out.flush();
-	        //socketduserveur.close();
+	        socketduserveur.close();
 	        
 	        //socketserver.close();
 		}
