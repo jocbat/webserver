@@ -4,7 +4,7 @@ public abstract class Client
 {
 	public Client(Server server)
 	{
-		this.server = server;
+		this.server = server; 
 	}
 	
 	// serveur à qui on pose des questions
