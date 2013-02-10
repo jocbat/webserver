@@ -53,7 +53,14 @@ public class Request
 		// TODO : à faire plus propre...
 		boolean isGoodMethod = ("GET".equals(method)) || ("POST".equals(method)) || ("PUT".equals(method)) || ("DELETE".equals(method));
 		boolean isGoodVersion = ("HTTP/1.1".equals(version));
-		return isGoodMethod && isGoodVersion;
+		boolean isURLWellFormed = isURLWellFormed(URL);
+		return isGoodMethod && isGoodVersion && isURLWellFormed;
+	}
+	
+	private boolean isURLWellFormed(String url)
+	{
+		// TODO : Utiliser un regex (ou une librairie java ?)
+		return true;
 	}
 	
 	public void send() throws Exception
