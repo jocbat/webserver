@@ -20,6 +20,7 @@ public class Response
 	public Response(Request request)
 	{
 		this.initialRequest = request;
+		this.body = new ArrayList<>();
 	}
 	
 	protected String version;
@@ -64,64 +65,59 @@ public class Response
 		// TODO : tres moche pour la gestion du favicon.ico...
 		if (!"/favicon.ico".equals(initialRequest.getURL()))
 		{
-			//if(initialRequest.isValid())
-			//{
-				if(initialRequest.isWellFormed())
+			if(initialRequest.isWellFormed())
+			{
+				// On demande au serveur si l'url de la requete correspond à l'url d'un fichier stocké
+				if(getClient().getServer().isFileURL(initialRequest.getURL()))
 				{
-					//String pathFile = "D:" + initialRequest.getURL();
-					//File file = new File(pathFile);
-					//if(file.isFile())
-					if(getClient().getServer().isFileURL(initialRequest.getURL()))
+					this.version = "HTTP/1.1";
+					this.status = "200";
+					this.statusMeaning = "OKEEEE";
+					this.contentType = "Content-Type : text/plain";
+											
+					String path = getClient().getServer().getFilesPath();
+					String filePath = path + initialRequest.getURL();
+					
+					ArrayList<String> fileLines = new ArrayList<>();
+					try 
 					{
-						this.version = "HTTP/1.1";
-						this.status = "200";
-						this.statusMeaning = "OKEEEE";
-						this.contentType = "Content-Type : text/plain";
-						BufferedReader br = null;
-						
-						try {
-							
-							String sCurrentLine;
-							
-							br = new BufferedReader(new FileReader(getClient().getServer().getFilesPath()));
-							while ((sCurrentLine = br.readLine()) != null) {
-								System.out.println(sCurrentLine);
-								body.add(sCurrentLine);
-								//out.println(sCurrentLine);									
-							}
-				 
-						} catch (IOException e) {
-							this.version = "HTTP/1.1";
-							this.status = "500";
-							this.statusMeaning = "Internal Server Error";
-							this.contentType = "Content-Type : text/plain";
-						} finally {
-							try {
-								if (br != null)br.close();
-							} catch (IOException ex) {
-								ex.printStackTrace();
-							}
+						fileLines = getClient().getServer().getFileLines(filePath);
+						int i;
+						for (i = 0; i < fileLines.size(); i++) 
+						{
+						   System.out.println(fileLines.get(i));
+						   body.add(fileLines.get(i));
 						}
-					}
-					else
+					} 
+					catch (IOException e) 
 					{
 						this.version = "HTTP/1.1";
-						this.status = "404";
-						this.statusMeaning = "File Not Found";
+						this.status = "500";
+						this.statusMeaning = "Internal Server Error";
 						this.contentType = "Content-Type : text/plain";
-						this.body.add("Le fichier n'existe pas");
+						this.body.add("Erreur interne du serveur...");
 					}
 				}
 				else
 				{
 					this.version = "HTTP/1.1";
-					this.status = "400";
-					this.statusMeaning = "Le fichier n'existe pas";
+					this.status = "404";
+					this.statusMeaning = "File Not Found";
 					this.contentType = "Content-Type : text/plain";
-					this.body.add("Requete mal formée");
+					this.body.add("Fichier non trouvé :(");
 				}
+			}
+			else
+			{
+				this.version = "HTTP/1.1";
+				this.status = "300";
+				this.statusMeaning = "Bad Request";
+				this.contentType = "Content-Type : text/plain";
+				this.body.add("Requete mal formée");
+			}
 		}
 	}
+	
 	
 	/**
 	 *  envoie la reponse au demandeur ayant fait la requete initialRequest

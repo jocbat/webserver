@@ -1,5 +1,7 @@
 package abstraction;
 
+import junit.runner.Version;
+
 public class Request 
 {
 	protected Client client;
@@ -49,8 +51,8 @@ public class Request
 	public boolean isWellFormed()
 	{
 		// TODO : à faire plus propre...
-		boolean isGoodMethod = (method == "GET") || (method == "POST") || (method == "PUT") || (method == "DELETE");
-		boolean isGoodVersion = (method == "0.9") || (method == "1.0") || (method == "1.1");
+		boolean isGoodMethod = ("GET".equals(method)) || ("POST".equals(method)) || ("PUT".equals(method)) || ("DELETE".equals(method));
+		boolean isGoodVersion = ("HTTP/1.1".equals(version));
 		return isGoodMethod && isGoodVersion;
 	}
 	

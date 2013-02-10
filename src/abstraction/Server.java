@@ -1,10 +1,20 @@
 package abstraction;
 
+import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
+import java.util.ArrayList;
 
 
 public class Server 
 {
+	public Server(String path)
+	{
+		this.filesPath = path;
+	}
+	
 	protected Client client;
 	
 	// Chemin d'accès des fichiers que gère le serveur
@@ -58,17 +68,32 @@ public class Server
 	 */
 	public boolean isFileURL(String url)
 	{
-		return true;
+		String completePath = filesPath + url;
+		File file = new File(completePath);
+		return file.isFile();
 	}
 	
-	/**
-	 * Récupère un fichier à l'url donné. Doit vérifier isFileURL(url)
-	 * @param url
-	 * @return
-	 */
-	public File getFile(String url)
+	public ArrayList<String> getFileLines(String filePath) throws IOException 
 	{
-		return null;
+		BufferedReader br = new BufferedReader(new FileReader(filePath));
+		ArrayList<String> returnedList = new ArrayList<>();
+		try
+		{
+			
+			String sCurrentLine;
+			
+			while ((sCurrentLine = br.readLine()) != null) 
+			{
+				System.out.println(sCurrentLine);
+				returnedList.add(sCurrentLine);
+			} 
+		}
+		finally
+		{
+			br.close();
+		}
+		
+		return returnedList;
 	}
 	
 	

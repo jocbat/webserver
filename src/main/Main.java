@@ -1,7 +1,6 @@
 package main;
 
 import implementation.HttpClient;
-import implementation.HttpServer;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -37,6 +36,9 @@ public class Main
 			// Le client est connecté on effectue les traitements
 			InputStream input = socketduserveur.getInputStream();
 			
+			// Récupération du flux de sortie pour afficher dans le navigateur
+			OutputStream out = socketduserveur.getOutputStream();
+			
 			String url = "";
 			String version= "";
 			String method = "";
@@ -51,7 +53,7 @@ public class Main
 				chainePremierLigne = buff.readLine();
 				
 				// Si l'on a rien en première ligne, la requete est mal faite donc inutile de continuer
-				if((chainePremierLigne == null) || (chainePremierLigne == "")) return;
+				if((chainePremierLigne == null) || (chainePremierLigne == "")) continue;
 				
 				
 				System.out.println(chainePremierLigne);
@@ -69,10 +71,7 @@ public class Main
 			}
 			
 			
-			Server server = new Server();
-			
-			// Récupération du flux de sortie pour afficher dans le navigateur
-			OutputStream out = null;
+			Server server = new Server("D:");
 			
 			Client client = new HttpClient(server, out);
 			
@@ -83,20 +82,17 @@ public class Main
 			Request request = new Request(client);
 			request.setMethod(method);
 			request.setURL(url);
-			request.setMethod(method);
-			
-			
-			
+			request.setVersion(version);
+
 			try 
 			{
 				client.sendRequest(request);
+				// On affiche les données dans le navigateur
 				client.handleResponse();
 			} catch (Exception e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-			
-			
 			socketduserveur.close();
 		}
 		
