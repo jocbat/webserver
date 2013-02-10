@@ -48,6 +48,7 @@ public class Request
 	 */
 	public boolean isWellFormed()
 	{
+		// TODO : à faire plus propre...
 		boolean isGoodMethod = (method == "GET") || (method == "POST") || (method == "PUT") || (method == "DELETE");
 		boolean isGoodVersion = (method == "0.9") || (method == "1.0") || (method == "1.1");
 		return isGoodMethod && isGoodVersion;

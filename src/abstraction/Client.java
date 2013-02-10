@@ -36,8 +36,12 @@ public abstract class Client
 			throw new Exception("Aucun serveur n'est défini");
 		}
 		currentRequest = request;
-		//server.receiveRequest(request);
 		request.send();
+		
+		if(currentResponse == null)
+		{
+			throw new Exception("Aucune réponse n'a été retournée par le serveur");
+		}
 	}
 	
 	/**
@@ -45,8 +49,12 @@ public abstract class Client
 	 * @param response
 	 * @throws Exception
 	 */
-	public void receiveResponse(Response response)
+	public void receiveResponse(Response response) throws Exception
 	{
+		if(response.getInitialRequest() != currentRequest)
+		{
+			throw new Exception("La réponse reçue n'est pas issue de la requête courante");
+		}
 		currentResponse = response;
 	}
 	/**
@@ -63,7 +71,7 @@ public abstract class Client
 	{
 		if (currentRequest == null)
 		{
-			throw new Exception("Le client actuel n'a effectué aucune requete au serveur");
+			throw new Exception("Le serveur n'a retourné aucune réponse");
 		}
 		return currentResponse;
 	}
@@ -71,6 +79,6 @@ public abstract class Client
 	/**
 	 * Le comportement à adopter lorsqu'une réponse est reçue
 	 */
-	public abstract void handleResponse() throws Exception ;
+	public abstract void handleResponse() throws Exception;
 	
 }

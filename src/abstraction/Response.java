@@ -6,7 +6,7 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
 
-public abstract class Response 
+public class Response 
 {
 	// requete dont la reponse courante sera issue
 	protected Request initialRequest;
@@ -68,9 +68,10 @@ public abstract class Response
 			//{
 				if(initialRequest.isWellFormed())
 				{
-					String pathFile = "D:" + initialRequest.getURL();
-					File file = new File(pathFile);
-					if(file.isFile())
+					//String pathFile = "D:" + initialRequest.getURL();
+					//File file = new File(pathFile);
+					//if(file.isFile())
+					if(getClient().getServer().isFileURL(initialRequest.getURL()))
 					{
 						this.version = "HTTP/1.1";
 						this.status = "200";
@@ -81,8 +82,8 @@ public abstract class Response
 						try {
 							
 							String sCurrentLine;
-				 
-							br = new BufferedReader(new FileReader(pathFile));
+							
+							br = new BufferedReader(new FileReader(getClient().getServer().getFilesPath()));
 							while ((sCurrentLine = br.readLine()) != null) {
 								System.out.println(sCurrentLine);
 								body.add(sCurrentLine);
@@ -90,7 +91,10 @@ public abstract class Response
 							}
 				 
 						} catch (IOException e) {
-							e.printStackTrace();
+							this.version = "HTTP/1.1";
+							this.status = "500";
+							this.statusMeaning = "Internal Server Error";
+							this.contentType = "Content-Type : text/plain";
 						} finally {
 							try {
 								if (br != null)br.close();

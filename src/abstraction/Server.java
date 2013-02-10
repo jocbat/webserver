@@ -3,10 +3,8 @@ package abstraction;
 import java.io.File;
 
 
-public abstract class Server 
+public class Server 
 {
-	int internalPort;
-	
 	protected Client client;
 	
 	// Chemin d'accès des fichiers que gère le serveur
@@ -23,33 +21,33 @@ public abstract class Server
 	public void receiveRequest(Request request) throws Exception
 	{
 		currentRequest = request;
-		currentReponse = generateReponse();
-		//sendResponse(currentReponse);
+		generateCurrentReponse();
+		sendResponse(currentResponse);
 	}
 	
 	protected Request currentRequest;
 	
-	protected Response currentReponse;
+	protected Response currentResponse;
 		
 	/**
 	 * Définit currentReponse en fonction de currentRequest
 	 * @param request
 	 * @return
 	 */
-	protected abstract Response generateReponse();
+	protected void generateCurrentReponse()
+	{
+		currentResponse = new Response(currentRequest);
+		currentResponse.generate();
+	}
 	
 	/**
-	 * Envoie la reponse au client à l'origine de la requete
+	 * Envoie la reponse courante au client
 	 * @param response
 	 * @throws Exception
 	 */
-	public void sendResponse() throws Exception
+	protected void sendResponse(Response response) throws Exception
 	{
-		if(currentReponse == null)
-		{
-			throw new Exception("Aucune réponse n'a été générée");
-		}
-		currentReponse.send();
+		response.send();
 	}
 	
 	
@@ -58,7 +56,7 @@ public abstract class Server
 	 * @param url
 	 * @return
 	 */
-	protected boolean isFileURL(String url)
+	public boolean isFileURL(String url)
 	{
 		return true;
 	}
@@ -68,7 +66,7 @@ public abstract class Server
 	 * @param url
 	 * @return
 	 */
-	protected File findFile(String url)
+	public File getFile(String url)
 	{
 		return null;
 	}
