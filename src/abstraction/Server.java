@@ -52,9 +52,27 @@ public abstract class Server
 		currentReponse.send();
 	}
 	
+	
+	/**
+	 * Renvoie vrai si l'url spécifiée pointe vers un fichier
+	 * @param url
+	 * @return
+	 */
+	protected boolean isFileURL(String url)
+	{
+		return true;
+	}
+	
+	/**
+	 * Récupère un fichier à l'url donné. Doit vérifier isFileURL(url)
+	 * @param url
+	 * @return
+	 */
 	protected File findFile(String url)
 	{
 		return null;
 	}
+	
+	
 }
 

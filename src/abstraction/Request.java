@@ -14,6 +14,16 @@ public class Request
 	// l'url du fichier demandé
 	protected String URL;
 	
+	public void setMethod(String method) {
+		this.method = method;
+	}
+	public void setURL(String uRL) {
+		URL = uRL;
+	}
+	public void setVersion(String version) {
+		this.version = version;
+	}
+
 	// version http de la requete
 	protected String version;
 	

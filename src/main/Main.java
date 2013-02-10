@@ -1,13 +1,18 @@
 package main;
 
+import implementation.HttpClient;
+import implementation.HttpServer;
+
 import java.io.IOException;
+import java.io.OutputStream;
 
 import abstraction.Client;
 import abstraction.Request;
 import abstraction.Server;
 
 
-public class Main {
+public class Main 
+{
 
 	/**
 	 * @param args
@@ -16,14 +21,30 @@ public class Main {
 	 */
 	public static void main(String[] args) throws IOException, InterruptedException 
 	{
-		//Server server = new Server(2010);
-		//server.start();
-		Client client = null;
-		Server server = null;
-		Request request = new Request(client);
+		Server server = new HttpServer();
 		
-		try {
+		// Récupération du flux de sortie pour afficher dans le navigateur
+		OutputStream out = null;
+		
+		Client client = new HttpClient(server, out);
+		
+		// Lire à partir d'un flux d'entree les données demandées
+		String url = "";
+		String version= "";
+		String method = "";
+		
+		// Créer une requete à partir de ces données
+		Request request = new Request(client);
+		request.setMethod(method);
+		request.setURL(url);
+		request.setMethod(method);
+		
+		
+		
+		try 
+		{
 			client.sendRequest(request);
+			server.sendResponse();
 			client.handleResponse();
 		} catch (Exception e) {
 			// TODO Auto-generated catch block

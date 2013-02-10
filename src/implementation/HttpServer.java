@@ -1,18 +1,24 @@
 package implementation;
 
+import java.io.InputStream;
+
 import abstraction.Response;
 import abstraction.Server;
 
 public class HttpServer extends Server
 {
 
+	public HttpServer()
+	{
+		
+	}
+	
+
 	@Override
-	protected void generateResponse() 
+	protected Response generateReponse() 
 	{
 		// TODO Auto-generated method stub
-		Response response = new OutPutStreamWrapperResponse(currentRequest);
-		currentReponse = response;
-		currentReponse.generate();
+		return null;
 	}
 	
 }
