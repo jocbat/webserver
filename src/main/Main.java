@@ -48,7 +48,7 @@ public class Main
 				
 				BufferedReader buff;			
 				
-				buff = new BufferedReader (new InputStreamReader(input));	
+				buff = new BufferedReader (new InputStreamReader(input));
 				String chainePremierLigne = "";
 				chainePremierLigne = buff.readLine();
 				
