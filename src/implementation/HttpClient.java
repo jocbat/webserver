@@ -24,19 +24,22 @@ public class HttpClient extends Client
 	}
 
 	@Override
-	public void receiveResponse(Response response) throws Exception 
+	public void handleResponse() throws Exception 
 	{
-		// TODO Auto-generated method stub
+		if(currentResponse == null)
+		{
+			throw new Exception("Aucune réponse n'a été générée");
+		}
 		PrintWriter out = new PrintWriter(outPutStream);
-		String firstLine = response.getVersion() + " " + response.getStatus() + " " + response.getStatusMeaning();
+		String firstLine = currentResponse.getVersion() + " " + currentResponse.getStatus() + " " + currentResponse.getStatusMeaning();
 		out.println(firstLine);
-		out.println(response.getContentType());
+		out.println(currentResponse.getContentType());
 		out.println("");
 		int i;
-		for (i=0; i<response.getBody().size(); i++) {
-			String line = response.getBody().get(i);
+		for (i=0; i<currentResponse.getBody().size(); i++) {
+			String line = currentResponse.getBody().get(i);
 			System.out.println(line);
-		   out.println(response.getBody().get(i));
+		   out.println(currentResponse.getBody().get(i));
 		}
 		//out.println(this.body);
 		out.flush();

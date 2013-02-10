@@ -1,5 +1,7 @@
 package abstraction;
 
+import java.io.File;
+
 
 public abstract class Server 
 {
@@ -20,32 +22,39 @@ public abstract class Server
 	
 	public void receiveRequest(Request request) throws Exception
 	{
-		//Response response = generateResponse(request);
 		currentRequest = request;
-		generateResponse();
-		sendResponse(currentReponse);
+		currentReponse = generateReponse();
+		//sendResponse(currentReponse);
 	}
 	
 	protected Request currentRequest;
 	
 	protected Response currentReponse;
-	
-	/**
-	 * Génère une réponse pour la requete courante "currentRequest"
-	 * Doit modifier currentReponse
-	 */
-	protected abstract void generateResponse();
-	
-	
 		
+	/**
+	 * Définit currentReponse en fonction de currentRequest
+	 * @param request
+	 * @return
+	 */
+	protected abstract Response generateReponse();
+	
 	/**
 	 * Envoie la reponse au client à l'origine de la requete
 	 * @param response
 	 * @throws Exception
 	 */
-	public void sendResponse(Response response) throws Exception
+	public void sendResponse() throws Exception
 	{
-		response.send();
+		if(currentReponse == null)
+		{
+			throw new Exception("Aucune réponse n'a été générée");
+		}
+		currentReponse.send();
+	}
+	
+	protected File findFile(String url)
+	{
+		return null;
 	}
 }
 

@@ -119,7 +119,10 @@ public abstract class Response
 		}
 	}
 	
-	// envoie la reponse au demandeur ayant fait la requete initialRequest
+	/**
+	 *  envoie la reponse au demandeur ayant fait la requete initialRequest
+	 * @throws Exception
+	 */
 	public void send() throws Exception
 	{
 		getClient().receiveResponse(this);

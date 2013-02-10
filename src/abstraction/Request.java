@@ -1,6 +1,6 @@
 package abstraction;
 
-public abstract class Request 
+public class Request 
 {
 	protected Client client;
 	
@@ -45,7 +45,8 @@ public abstract class Request
 	
 	public void send() throws Exception
 	{
-		client.sendRequest(this);
+		//client.sendRequest(this);
+		getClient().getServer().receiveRequest(this);
 	}
 	
 }
