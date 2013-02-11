@@ -3,7 +3,12 @@ package abstraction;
 import java.io.IOException;
 import java.util.ArrayList;
 
-
+/**
+ * Représente un serveur de fichier i.e capable de recevoir des requetes, d'effectuer des actions en conséquence (ici actions sur une des fichiers)
+ * et de renvoyer une réponse à l'entité ayant fait la requête sur l'état des actions menées
+ * @author jocelyn.batton
+ *
+ */
 public class Server 
 {
 	public Server(String path, SafeFileAccessor safeFileAccessor)
@@ -14,8 +19,6 @@ public class Server
 	
 	// permet d'accèder, écrire, mettre à jour les fichiers de manière "thread-safe"
 	protected SafeFileAccessor safeFileAccessor;
-	
-	protected Client client;
 	
 	// Chemin d'accès des fichiers que gère le serveur
 	private String filesPath;
@@ -67,33 +70,11 @@ public class Server
 	 */
 	public boolean isFileURL(String url)
 	{
-//		String completePath = filesPath + url;
-//		File file = new File(completePath);
-//		return file.isFile();
 		return safeFileAccessor.isPathPointedOnFile(url);
 	}
 	
 	public ArrayList<String> getFileLines(String url) throws IOException 
 	{
-//		BufferedReader br = new BufferedReader(new FileReader(filePath));
-//		ArrayList<String> returnedList = new ArrayList<>();
-//		try
-//		{
-//			
-//			String sCurrentLine;
-//			
-//			while ((sCurrentLine = br.readLine()) != null) 
-//			{
-//				System.out.println(sCurrentLine);
-//				returnedList.add(sCurrentLine);
-//			} 
-//		}
-//		finally
-//		{
-//			br.close();
-//		}
-//		
-//		return returnedList;
 		return safeFileAccessor.getLines(url);
 	}
 	

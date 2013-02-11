@@ -65,7 +65,6 @@ public class Request
 	
 	public void send() throws Exception
 	{
-		//client.sendRequest(this);
 		getClient().getServer().receiveRequest(this);
 	}
 	

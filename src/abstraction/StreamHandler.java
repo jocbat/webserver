@@ -1,6 +1,6 @@
 package abstraction;
 
-import implementation.HttpClient;
+import implementation.OutPutStreamClient;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -52,7 +52,6 @@ public class StreamHandler implements Runnable {
 				chainePremierLigne = buff.readLine();
 				
 				System.out.println("Première ligne de la requête " + chainePremierLigne);
-				System.out.println(" ");
 				
 				// Si l'on a rien en première ligne, la requete est mal faite donc inutile de continuer
 				if((chainePremierLigne == null) || (chainePremierLigne == "")) continue;
@@ -64,9 +63,11 @@ public class StreamHandler implements Runnable {
 				url = chainePremierLigne.substring(positionPremierBlanc + 1 , positionDeuxiemeBlanc);
 				version = chainePremierLigne.substring(positionDeuxiemeBlanc + 1);
 				SafeFileAccessor safeFileAccessor = new SafeFileAccessor();
+				
+				// On renseigne ici le chemin physique du disque sur lequel le serveur ira lire et écrire
 				Server server = new Server("D:", safeFileAccessor);
 				
-				Client client = new HttpClient(server, out);
+				Client client = new OutPutStreamClient(server, out);
 				
 				// Créer une requete à partir de ces données
 				Request request = new Request(client);
@@ -81,12 +82,10 @@ public class StreamHandler implements Runnable {
 			} 
 			catch (IOException e1) 
 			{
-				// TODO Auto-generated catch block
 				e1.printStackTrace();
 			}
 			catch (Exception e) 
 			{
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 			finally
@@ -99,10 +98,8 @@ public class StreamHandler implements Runnable {
 					Thread.sleep(waitingTime);
 					System.out.println("Fin attente de " + waitingTime + " secondes");
 				} catch (IOException e) {
-					// TODO Auto-generated catch block
 					e.printStackTrace();
 				} catch (InterruptedException e) {
-					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
 			}
