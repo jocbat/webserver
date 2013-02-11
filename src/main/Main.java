@@ -1,24 +1,12 @@
 package main;
 
-import implementation.HttpClient;
-
-import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.OutputStream;
 import java.net.ServerSocket;
-import java.net.Socket;
-
-import abstraction.Client;
-import abstraction.Request;
-import abstraction.SafeFileAccessor;
-import abstraction.Server;
+import abstraction.StreamHandler;
 
 
 public class Main 
 {
-
 	/**
 	 * @param args
 	 * @throws IOException 
@@ -28,79 +16,15 @@ public class Main
 	{
 		int internalPort = 2010;
 		ServerSocket socketserver = new ServerSocket(internalPort);
+		Thread t1 = new Thread(new StreamHandler(1,socketserver,10000));
+		Thread t2 = new Thread(new StreamHandler(2,socketserver,10000));
+		Thread t3 = new Thread(new StreamHandler(3,socketserver,10000));
+		//Thread t4 = new Thread(new StreamHandler(4,socketserver,1000));
 		
-		while(true)
-		{			
-			// On attend qu'un client se connecte
-			Socket socketduserveur = socketserver.accept();
-			
-			// Le client est connecté on effectue les traitements
-			InputStream input = socketduserveur.getInputStream();
-			
-			// Récupération du flux de sortie pour afficher dans le navigateur
-			OutputStream out = socketduserveur.getOutputStream();
-			
-			String url = "";
-			String version= "";
-			String method = "";
-			
-			try 
-			{
-				
-				BufferedReader buff;			
-				
-				buff = new BufferedReader (new InputStreamReader(input));
-				String chainePremierLigne = "";
-				chainePremierLigne = buff.readLine();
-				
-				// Si l'on a rien en première ligne, la requete est mal faite donc inutile de continuer
-				if((chainePremierLigne == null) || (chainePremierLigne == "")) continue;
-				
-				
-				System.out.println(chainePremierLigne);
-				
-				int positionPremierBlanc = chainePremierLigne.indexOf(" ");
-				int positionDeuxiemeBlanc = chainePremierLigne.lastIndexOf(" ");
-				
-				method = chainePremierLigne.substring(0,positionPremierBlanc);
-				url = chainePremierLigne.substring(positionPremierBlanc + 1 , positionDeuxiemeBlanc);
-				version = chainePremierLigne.substring(positionDeuxiemeBlanc + 1);
-				
-			} catch (IOException e) {
-				// une erreur est survenue, la requete est invalide
-				//this.internalIsValid = false;
-			}
-			
-			SafeFileAccessor safeFileAccessor = new SafeFileAccessor();
-			Server server = new Server("D:", safeFileAccessor);
-			
-			Client client = new HttpClient(server, out);
-			
-			
-			
-			
-			// Créer une requete à partir de ces données
-			Request request = new Request(client);
-			request.setMethod(method);
-			request.setURL(url);
-			request.setVersion(version);
-
-			try 
-			{
-				client.sendRequest(request);
-				// On affiche les données dans le navigateur
-				client.handleResponse();
-			} catch (Exception e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-			socketduserveur.close();
-		}
+		t1.start();
+		t2.start();
 		
-		
-		
-		
-		
+		t3.start();
+//		t4.start();		
 	}
-
 }

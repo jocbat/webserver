@@ -82,7 +82,7 @@ public class Response
 						int i;
 						for (i = 0; i < fileLines.size(); i++) 
 						{
-						   System.out.println(fileLines.get(i));
+						   //System.out.println(fileLines.get(i));
 						   body.add(fileLines.get(i));
 						}
 					} 

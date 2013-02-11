@@ -38,7 +38,7 @@ public class HttpClient extends Client
 		int i;
 		for (i=0; i<currentResponse.getBody().size(); i++) {
 			String line = currentResponse.getBody().get(i);
-			System.out.println(line);
+			//System.out.println(line);
 		   out.println(currentResponse.getBody().get(i));
 		}
 		//out.println(this.body);
