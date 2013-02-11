@@ -38,7 +38,7 @@ public class SafeFileAccessor
 			while ((sCurrentLine = br.readLine()) != null) 
 			{
 				returnedList.add(sCurrentLine);
-				System.out.println(sCurrentLine);
+				//System.out.println(sCurrentLine);
 			}
  
 		} catch (IOException e) {
