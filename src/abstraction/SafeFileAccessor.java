@@ -1,6 +1,9 @@
 package abstraction;
 
+import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileReader;
+import java.io.IOException;
 import java.util.ArrayList;
 
 /**
@@ -15,21 +18,46 @@ public class SafeFileAccessor
 	 * @param url
 	 * @return
 	 */
-	public boolean isPathPointedOnFile(String url)
+	public synchronized boolean isPathPointedOnFile(String url)
 	{
-		return true;
+		File file = new File(url);
+		return file.isFile();
 	}
 	
-	public ArrayList<String> getLines(File file)
+	public synchronized ArrayList<String> getLines(String url)
 	{
-		return null;
+		ArrayList<String> returnedList = new ArrayList<>();
+		BufferedReader br = null;
+		boolean isExist = false;
+		try {
+			
+			String sCurrentLine;
+ 
+			br = new BufferedReader(new FileReader(url));
+			
+			while ((sCurrentLine = br.readLine()) != null) 
+			{
+				returnedList.add(sCurrentLine);
+				System.out.println(sCurrentLine);
+			}
+ 
+		} catch (IOException e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				if (br != null)br.close();
+			} catch (IOException ex) {
+				ex.printStackTrace();
+			}
+		}
+		return returnedList;
 	}
 	
 	/**
 	 * Ecrire une ligne dans le fichier File
 	 */
-	public void writeLine()
+	public synchronized void writeLine()
 	{
-		
+		// TODO : écrire méthode writeLine
 	}
 }
