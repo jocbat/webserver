@@ -1,19 +1,19 @@
 package abstraction;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
 
 
 public class Server 
 {
-	public Server(String path)
+	public Server(String path, SafeFileAccessor safeFileAccessor)
 	{
 		this.filesPath = path;
+		this.safeFileAccessor = safeFileAccessor;
 	}
+	
+	// permet d'accèder, écrire, mettre à jour les fichiers de manière "thread-safe"
+	protected SafeFileAccessor safeFileAccessor;
 	
 	protected Client client;
 	
@@ -60,7 +60,6 @@ public class Server
 		response.send();
 	}
 	
-	
 	/**
 	 * Renvoie vrai si l'url spécifiée pointe vers un fichier
 	 * @param url
@@ -68,32 +67,34 @@ public class Server
 	 */
 	public boolean isFileURL(String url)
 	{
-		String completePath = filesPath + url;
-		File file = new File(completePath);
-		return file.isFile();
+//		String completePath = filesPath + url;
+//		File file = new File(completePath);
+//		return file.isFile();
+		return safeFileAccessor.isPathPointedOnFile(url);
 	}
 	
-	public ArrayList<String> getFileLines(String filePath) throws IOException 
+	public ArrayList<String> getFileLines(String url) throws IOException 
 	{
-		BufferedReader br = new BufferedReader(new FileReader(filePath));
-		ArrayList<String> returnedList = new ArrayList<>();
-		try
-		{
-			
-			String sCurrentLine;
-			
-			while ((sCurrentLine = br.readLine()) != null) 
-			{
-				System.out.println(sCurrentLine);
-				returnedList.add(sCurrentLine);
-			} 
-		}
-		finally
-		{
-			br.close();
-		}
-		
-		return returnedList;
+//		BufferedReader br = new BufferedReader(new FileReader(filePath));
+//		ArrayList<String> returnedList = new ArrayList<>();
+//		try
+//		{
+//			
+//			String sCurrentLine;
+//			
+//			while ((sCurrentLine = br.readLine()) != null) 
+//			{
+//				System.out.println(sCurrentLine);
+//				returnedList.add(sCurrentLine);
+//			} 
+//		}
+//		finally
+//		{
+//			br.close();
+//		}
+//		
+//		return returnedList;
+		return safeFileAccessor.getLines(url);
 	}
 	
 	

@@ -12,6 +12,7 @@ import java.net.Socket;
 
 import abstraction.Client;
 import abstraction.Request;
+import abstraction.SafeFileAccessor;
 import abstraction.Server;
 
 
@@ -70,8 +71,8 @@ public class Main
 				//this.internalIsValid = false;
 			}
 			
-			
-			Server server = new Server("D:");
+			SafeFileAccessor safeFileAccessor = new SafeFileAccessor();
+			Server server = new Server("D:", safeFileAccessor);
 			
 			Client client = new HttpClient(server, out);
 			
